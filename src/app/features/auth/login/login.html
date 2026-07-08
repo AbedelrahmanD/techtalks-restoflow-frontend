@@ -1,0 +1,45 @@
+<div class="flex flex-column justify-content-center align-items-center min-h-screen surface-ground px-3">
+    <div class="my-3">
+        <app-language-switcher />
+    </div>
+
+    <p-card [header]="'login' | translate" class="w-full max-w-25rem shadow-4">
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-4">
+
+            <div class="flex flex-column gap-2">
+                <label for="username">
+                    {{ 'username' | translate }}
+                </label>
+                <p-iconfield>
+                    <p-inputicon class="pi pi-user" />
+                    <input pInputText id="username" formControlName="username" class="w-full"
+                        [placeholder]="'username' | translate" />
+                </p-iconfield>
+            </div>
+
+            <div class="flex flex-column gap-2">
+                <label for="password">
+                    {{ 'password' | translate }}
+                </label>
+                <p-iconfield>
+                    <p-inputicon class="pi pi-lock" />
+                    <input pInputPassword id="password" type="password" formControlName="password" class="w-full"
+                        [placeholder]="'password' | translate" />
+                </p-iconfield>
+            </div>
+
+            <button pButton type="submit" [disabled]="loginForm.invalid || isLoading()" styleClass="w-full mt-2">
+                @if(isLoading()){
+                <app-spinner />
+                }@else{
+                {{ 'submit' | translate}}
+                }
+            </button>
+            @if (errorMessage()) {
+            <p-message severity="error" icon="pi pi-exclamation-triangle"
+                [closable]="true">{{errorMessage()}}</p-message>
+            }
+        </form>
+    </p-card>
+</div>
