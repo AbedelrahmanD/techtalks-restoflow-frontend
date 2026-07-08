@@ -3,13 +3,14 @@ import { inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../services/auth.service';
 import { catchError, switchMap, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 
 export const apiInterceptor: HttpInterceptorFn = (req, next) => {
     const translate = inject(TranslateService);
     const authService = inject(AuthService);
 
     const currentLang = translate.getCurrentLang()?.toString() ?? 'en';
-    const baseUrl = 'https://localhost:7036';
+    const baseUrl = environment.baseUrl;
 
     const modifiedReq = req.clone({
         url: req.url.includes('i18n') || req.url.startsWith('http') ? req.url : `${baseUrl}${req.url}`,
