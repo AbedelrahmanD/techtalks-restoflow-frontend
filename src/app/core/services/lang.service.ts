@@ -1,7 +1,4 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
-import { LoginCredentials, LoginResponse, UserProfile } from '../models/auth.models';
 import { TranslateService } from '@ngx-translate/core';
 
 interface LanguageOption {

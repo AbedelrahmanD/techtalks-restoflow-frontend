@@ -1,0 +1,76 @@
+<app-data-table [table]="dt" (new)="navigateToNew()">
+    <p-table #dt [value]="users()" [loading]="loading()" [globalFilterFields]="['username','email','phone']"
+        [paginator]="tableConfig.paginator" [rows]="tableConfig.rows"
+        [rowsPerPageOptions]="tableConfig.rowsPerPageOptions">
+
+        <ng-template #header>
+            <tr>
+                <th pSortableColumn="username">
+                    {{ 'username' | translate }}
+                    <p-sort-icon field="username" />
+                </th>
+
+                <th pSortableColumn="email">
+                    {{ 'email' | translate }}
+                    <p-sort-icon field="email" />
+                </th>
+
+                <th>
+                    {{ 'phone' | translate }}
+                </th>
+
+                <th>
+                    {{ 'role' | translate }}
+                </th>
+
+                <th>
+                    {{ 'actions' | translate }}
+                </th>
+            </tr>
+        </ng-template>
+
+        <ng-template #body let-user>
+            <tr>
+                <td>
+                    {{ user.username }}
+                </td>
+
+                <td>
+                    {{ user.email }}
+                </td>
+
+                <td>
+                    {{ user.phone || '-' }}
+                </td>
+
+                <td>
+                    {{ user.role.role }}
+                </td>
+
+                <td>
+                    <button pButton type="button" severity="info" text size="small" (click)="navigateToEdit(user.id)">
+                        <svg data-p-icon="pencil"></svg>
+                    </button>
+
+                    <button pButton type="button" severity="danger" text size="small" (click)="deleteUser(user.id)">
+                        <svg data-p-icon="trash"></svg>
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="5">
+                    <div class="flex flex-col items-center justify-center gap-2 py-6">
+                        <svg data-p-icon="inbox" class="w-8 h-8 text-slate-300"></svg>
+                        <span class="text-sm">
+                            {{ 'noRecords' | translate }}
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+</app-data-table>

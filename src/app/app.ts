@@ -12,18 +12,12 @@ import { LangService } from './core/services/lang.service';
   styleUrl: './app.css'
 })
 export class App {
-  isLoading = signal<boolean>(true);
-  private authService = inject(AuthService);
   translate = inject(TranslateService);
   private langService = inject(LangService);
 
   ngOnInit(): void {
     this.langService.apply(localStorage.getItem('lang') || 'en');
 
-    this.authService.refreshUser().subscribe({
-      next: () => this.isLoading.set(false),
-      error: () => this.isLoading.set(false)
-    });
   }
 
 }

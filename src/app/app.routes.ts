@@ -1,8 +1,34 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
     {
         path: 'login',
-        loadComponent: () => import('./features/auth/login/login').then(m => m.Login)
+        loadComponent: () => import('./features/auth/login/login').then(m => m.Login),
     },
+    {
+        path: 'dashboard',
+        loadComponent: () => import('./features/dashboard/dashboard').then(m => m.Dashboard),
+        canActivate: [authGuard],
+        children: [
+            {
+                path: 'users',
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () => import('./features/users/users-list/users-list').then(m => m.UsersList)
+                    },
+                    {
+                        path: 'new',
+                        loadComponent: () => import('./features/users/user-form/user-form').then(m => m.UserForm)
+                    },
+                    {
+                        path: 'edit/:id',
+                        loadComponent: () => import('./features/users/user-form/user-form').then(m => m.UserForm)
+                    }
+                ]
+            }
+        ]
+    },
+
 ];

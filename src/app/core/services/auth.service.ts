@@ -19,9 +19,18 @@ export class AuthService {
   }
 
   refreshUser(): Observable<LoginResponse> {
-    return this.http.get<LoginResponse>('/api/Auth/refresh').pipe(
+    return this.http.post<LoginResponse>('/api/Auth/refresh', {}).pipe(
       tap({
         next: (response) => this.currentUser.set(response.user),
+        error: () => this.currentUser.set(null)
+      })
+    );
+  }
+
+  logout(): Observable<void> {
+    return this.http.post<void>('/api/Auth/logout', {}).pipe(
+      tap({
+        next: (response) => this.currentUser.set(null),
         error: () => this.currentUser.set(null)
       })
     );

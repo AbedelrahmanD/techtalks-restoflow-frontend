@@ -3,7 +3,7 @@ export interface UserProfile {
     username: string;
     createdAt: string;
     updatedAt: string | null;
-    role: number;
+    role: Role;
     email: string | null;
     phone: string | null;
 }
@@ -15,4 +15,9 @@ export interface LoginResponse {
 export interface LoginCredentials {
     username: String;
     password: String;
+}
+
+export interface Role {
+    id: number,
+    role: string
 }

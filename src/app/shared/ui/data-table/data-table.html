@@ -1,0 +1,29 @@
+<div class="flex flex-col gap-6 p-6 bg-slate-50 min-h-screen">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <h1 class="text-2xl font-bold tracking-tight text-slate-900">
+            {{ title() | translate }}
+        </h1>
+
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+            <p-iconfield class="w-full sm:w-72">
+                <p-inputicon>
+                    <svg data-p-icon="search"></svg>
+                </p-inputicon>
+
+                <input pInputText type="text" [placeholder]="'search' | translate"
+                    (input)="table().filterGlobal($any($event.target).value, 'contains')" class="w-full" />
+            </p-iconfield>
+
+            <button pButton severity="success" class="whitespace-nowrap font-medium px-4 py-2 flex items-center gap-2"
+                (click)="new.emit()">
+
+                <svg data-p-icon="plus"></svg>
+                <span>{{ 'new' | translate }}</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="bg-white border border-slate-200/60 rounded-xl shadow-sm overflow-hidden">
+        <ng-content />
+    </div>
+</div>

@@ -14,6 +14,7 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
 
     const modifiedReq = req.clone({
         url: req.url.includes('i18n') || req.url.startsWith('http') ? req.url : `${baseUrl}${req.url}`,
+        withCredentials: true,
         setHeaders: {
             'Accept-Language': currentLang
         }

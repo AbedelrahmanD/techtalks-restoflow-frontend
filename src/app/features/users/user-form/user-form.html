@@ -1,0 +1,153 @@
+<div class=" flex items-center justify-center p-4">
+    <p-card class="w-full max-w-lg">
+
+        <ng-template #title>
+            <button pButton type="button" text severity="secondary" (click)="router.navigate(['/dashboard/users'])">
+                <i class="pi pi-arrow-left"></i>
+            </button>
+
+            {{ isEdit() ? ('editUser' | translate) : ('newUser' | translate) }}
+        </ng-template>
+
+        @if (loading()) {
+
+        <div class="flex justify-center py-8">
+            <app-spinner />
+        </div>
+
+        } @else {
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-4 px-4">
+
+            <div class="flex flex-col gap-2">
+
+                <label for="username" class="required">
+                    {{ 'username' | translate }}
+                </label>
+
+                <input pInputText id="username" formControlName="username" />
+                @if(errorFields()?.Username){
+                <p-message severity="error">
+                    {{errorFields()?.Username}}
+                </p-message>
+                }
+            </div>
+
+
+
+            <div class="flex flex-col gap-2">
+
+                <label for="password" class="required">
+                    {{ 'password' | translate }}
+                </label>
+                <input pInputPassword id="password" type="password" formControlName="password" />
+                @if( isEdit()){
+                <span class='text-slate-400 text-sm'>{{ 'leavePassword' | translate }}</span>
+                }
+
+                @if(errorFields()?.Password){
+                <p-message severity="error">
+                    {{errorFields()?.Password}}
+                </p-message>
+                }
+            </div>
+
+
+
+
+
+            <div class="grid grid-cols-2 gap-4">
+
+                <div class="flex flex-col gap-2">
+
+                    <label for="email" class="required">
+                        {{ 'email' | translate }}
+                    </label>
+
+                    <input pInputText id="email" formControlName="email" />
+                    @if(errorFields()?.Email){
+                    <p-message severity="error">
+                        {{errorFields()?.Email}}
+                    </p-message>
+                    }
+                </div>
+
+
+                <div class="flex flex-col gap-2">
+
+                    <label for="phone" class="required">
+                        {{ 'phone' | translate }}
+                    </label>
+
+                    <input pInputText id="phone" formControlName="phone" />
+                    @if(errorFields()?.Phone){
+                    <p-message severity="error">
+                        {{errorFields()?.Phone}}
+                    </p-message>
+                    }
+
+                </div>
+
+            </div>
+
+            <div class="flex flex-col gap-2">
+
+                <label for="role" class="required">
+                    {{ 'role' | translate }}
+                </label>
+
+                <p-select formControlName="role" [options]="roles" optionValue="value">
+
+                    <ng-template #item let-role>
+                        {{ role.label | translate }}
+                    </ng-template>
+
+                    <ng-template #selectedItem let-role>
+                        {{ role.label | translate }}
+                    </ng-template>
+
+                </p-select>
+                @if(errorFields()?.Role){
+                <p-message severity="error">
+                    {{errorFields()?.Role}}
+                </p-message>
+                }
+
+
+            </div>
+
+            @if (errorMessage()) {
+
+            <p-message severity="error">
+                {{ errorMessage() }}
+            </p-message>
+
+            }
+
+            <div class="flex justify-end gap-2 mt-4">
+
+                <button pButton type="button" severity="secondary" outlined
+                    (click)="router.navigate(['/dashboard/users'])">
+
+                    {{ 'cancel' | translate }}
+
+                </button>
+
+                <button pButton type="submit" [disabled]="saving()">
+
+                    @if (saving()) {
+                    <i class="pi pi-spin pi-spinner"></i>
+                    }
+
+                    {{ 'save' | translate}}
+
+                </button>
+
+            </div>
+
+        </form>
+
+        }
+    </p-card>
+
+</div>

@@ -1,4 +1,3 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -14,6 +13,7 @@ import { LoginCredentials } from '../../../core/models/auth.models';
 import { Spinner } from "../../../shared/ui/spinner/spinner";
 import { InputPasswordModule } from 'primeng/inputpassword';
 import { LanguageSwitcher } from "../../../shared/ui/language-switcher/language-switcher";
+import { Roles } from '../../../core/enums/roles.enum';
 
 @Component({
   selector: 'app-login',
@@ -55,7 +55,10 @@ export class Login {
     this.authService.login(credentials).subscribe({
       next: (response) => {
         this.isLoading.set(false);
-        this.router.navigate(['/dashboard']);
+        if (response.user.role.id == Roles.Admin) {
+          this.router.navigate(['/dashboard']);
+        }
+
       },
       error: (error) => {
         this.isLoading.set(false);

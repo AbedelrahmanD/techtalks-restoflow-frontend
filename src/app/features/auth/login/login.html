@@ -1,13 +1,15 @@
-<div class="flex flex-column justify-content-center align-items-center min-h-screen surface-ground px-3">
-    <div class="my-3">
+<div class="relative flex min-h-screen flex-col items-center justify-center bg-slate-50 px-4 py-12">
+
+    <div class="absolute top-6 right-6">
         <app-language-switcher />
     </div>
 
-    <p-card [header]="'login' | translate" class="w-full max-w-25rem shadow-4">
+    <p-card [header]="'login' | translate"
+        class="w-full max-w-sm border border-slate-200/60 bg-white shadow-md rounded-xl">
 
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-4">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-5">
 
-            <div class="flex flex-column gap-2">
+            <div class="flex flex-col gap-1.5">
                 <label for="username">
                     {{ 'username' | translate }}
                 </label>
@@ -18,7 +20,7 @@
                 </p-iconfield>
             </div>
 
-            <div class="flex flex-column gap-2">
+            <div class="flex flex-col gap-1.5">
                 <label for="password">
                     {{ 'password' | translate }}
                 </label>
@@ -29,16 +31,21 @@
                 </p-iconfield>
             </div>
 
-            <button pButton type="submit" [disabled]="loginForm.invalid || isLoading()" styleClass="w-full mt-2">
+            <button pButton type="submit" [disabled]="loginForm.invalid || isLoading()"
+                styleClass="w-full mt-2 py-2.5 font-semibold tracking-wide">
                 @if(isLoading()){
                 <app-spinner />
                 }@else{
                 {{ 'submit' | translate}}
                 }
             </button>
+
             @if (errorMessage()) {
-            <p-message severity="error" icon="pi pi-exclamation-triangle"
-                [closable]="true">{{errorMessage()}}</p-message>
+            <div class="mt-1">
+                <p-message severity="error" icon="pi pi-exclamation-triangle" [closable]="true">
+                    {{errorMessage()}}
+                </p-message>
+            </div>
             }
         </form>
     </p-card>

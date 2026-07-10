@@ -1,8 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-@import "primeflex/primeflex.css";
-@import "primeicons/primeicons.css";
-@import "primeflex/primeflex.css";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Readex+Pro:wght@300;400;500;700&display=swap');
+@import "primeicons/primeicons.css";
+@import "tailwindcss";
 
 * {
     box-sizing: border-box;
@@ -23,4 +22,13 @@ body {
 
 label {
     font-weight: bold;
+}
+
+.required::after {
+    content: " * ";
+    color: red;
+}
+
+[dir='rtl'] .pi-arrow-left {
+    transform: rotateY(180deg);
 }
