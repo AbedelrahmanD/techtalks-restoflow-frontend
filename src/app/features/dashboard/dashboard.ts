@@ -35,7 +35,7 @@ export class Dashboard {
     { label: 'menuCategories', route: '/dashboard/categories', icon: 'pi pi-tags' },
     { label: 'menuItems', route: '/dashboard/menuitems', icon: 'pi pi-book' },
     { label: 'menuDiningTables', route: '/dashboard/dining-tables', icon: 'pi pi-table' },
-    { label: 'menuQuestions', route: '/dashboard/questions', icon: 'pi pi-question' },
+    { label: 'menuQuestions', route: '/dashboard/feedback-questions', icon: 'pi pi-question-circle' },
     { label: 'menuSettings', route: '/dashboard/settings', icon: 'pi pi-cog' }
   ];
 
