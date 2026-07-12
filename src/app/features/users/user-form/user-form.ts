@@ -89,6 +89,7 @@ export class UserForm implements OnInit {
   }
 
   onSubmit() {
+    this.errorFields.set(null);
     const data = this.form.getRawValue();
     let callApi;
     if (this.isEdit()) {
