@@ -1,0 +1,137 @@
+<div class="flex items-center justify-center p-4">
+    <p-card class="w-full max-w-lg">
+
+        <ng-template #title>
+            <button
+                pButton
+                type="button"
+                text
+                severity="secondary"
+                (click)="router.navigate(['/dashboard/feedback-questions'])">
+
+                <i class="pi pi-arrow-left"></i>
+            </button>
+
+            {{
+                isEdit()
+                    ? ('editFeedbackQuestion' | translate)
+                    : ('newFeedbackQuestion' | translate)
+            }}
+        </ng-template>
+
+        @if (loading()) {
+
+            <div class="flex justify-center py-8">
+                <app-spinner />
+            </div>
+
+        } @else {
+
+            <form
+                [formGroup]="form"
+                (ngSubmit)="onSubmit()"
+                class="flex flex-col gap-4 px-4">
+
+                <div class="flex flex-col gap-2">
+
+                    <label for="question" class="required">
+                        {{ 'feedbackQuestion' | translate }}
+                    </label>
+
+                    <input
+                        pInputText
+                        id="question"
+                        formControlName="question"
+                        maxlength="255" />
+
+                    <span class="text-sm text-slate-400">
+                        {{ form.controls.question.value.length }}/255
+                    </span>
+
+                    @if (
+                        form.controls.question.touched &&
+                        form.controls.question.hasError('required')
+                    ) {
+                        <p-message severity="error">
+                            {{ 'requiredField' | translate }}
+                        </p-message>
+                    }
+
+                    @if (
+                        form.controls.question.touched &&
+                        form.controls.question.hasError('minlength')
+                    ) {
+                        <p-message severity="error">
+                            {{ 'feedbackQuestionMinLength' | translate }}
+                        </p-message>
+                    }
+
+                    @if (errorFields()?.Question) {
+                        <p-message severity="error">
+                            {{ errorFields()?.Question }}
+                        </p-message>
+                    }
+
+                </div>
+
+                <div class="flex items-center justify-between gap-4">
+
+                    <div class="flex flex-col gap-1">
+                        <label for="isActive">
+                            {{ 'status' | translate }}
+                        </label>
+
+                        <span class="text-sm text-slate-400">
+                            {{
+                                form.controls.isActive.value
+                                    ? ('active' | translate)
+                                    : ('inactive' | translate)
+                            }}
+                        </span>
+                    </div>
+
+                    <p-toggleswitch
+                        inputId="isActive"
+                        formControlName="isActive" />
+
+                </div>
+
+                @if (errorMessage()) {
+                    <p-message severity="error">
+                        {{ errorMessage() }}
+                    </p-message>
+                }
+
+                <div class="flex justify-end gap-2 mt-4">
+
+                    <button
+                        pButton
+                        type="button"
+                        severity="secondary"
+                        outlined
+                        (click)="router.navigate(['/dashboard/feedback-questions'])">
+
+                        {{ 'cancel' | translate }}
+
+                    </button>
+
+                    <button
+                        pButton
+                        type="submit"
+                        [disabled]="saving()">
+
+                        @if (saving()) {
+                            <i class="pi pi-spin pi-spinner"></i>
+                        }
+
+                        {{ 'save' | translate }}
+
+                    </button>
+
+                </div>
+
+            </form>
+        }
+
+    </p-card>
+</div>
