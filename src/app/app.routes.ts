@@ -61,6 +61,12 @@ export const routes: Routes = [
                             ).then(m => m.FeedbackQuestionForm)
                     }
                 ]
+            },
+            {
+                path: 'settings',
+                loadComponent: () =>
+                    import('./features/settings/settings-form/settings-form')
+                        .then(m => m.SettingsForm)
             }
         ]
     }
