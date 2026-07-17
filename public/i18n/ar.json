@@ -44,5 +44,11 @@
     "currencyId": "العملة",
     "logo": "الشعار",
     "chooseFile": "اختر ملف",
-    "selectCurrency": "اختر عملة"
+    "selectCurrency": "اختر عملة",
+    "tableNumber": "رقم الطاولة",
+    "seatingCapacity": "سعة الجلوس",
+    "newDiningTable": "طاولة جديدة",
+    "editDiningTable": "تعديل الطاولة",
+    "deleteDiningTableConfirm": "هل أنت متأكد من رغبتك في حذف هذه الطاولة؟",
+    "seatingCapacityRange": "يجب أن تكون بين 1 و 100"
 }

@@ -1,0 +1,112 @@
+<div class="flex items-center justify-center p-4">
+  <p-card class="w-full max-w-lg">
+    <ng-template #title>
+      <button
+        pButton
+        type="button"
+        text
+        severity="secondary"
+        (click)="router.navigate(['/dashboard/dining-tables'])"
+      >
+        <i class="pi pi-arrow-left"></i>
+      </button>
+
+      {{ isEdit() ? ('editDiningTable' | translate) : ('newDiningTable' | translate) }}
+    </ng-template>
+
+    @if (loading()) {
+      <div class="flex justify-center py-8">
+        <app-spinner />
+      </div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-4 px-4">
+        <div class="flex flex-col gap-2">
+          <label for="tableNumber" class="required">
+            {{ 'tableNumber' | translate }}
+          </label>
+
+          <input pInputText id="tableNumber" formControlName="tableNumber" maxlength="50" />
+
+          @if (
+            form.controls.tableNumber.touched && form.controls.tableNumber.hasError('required')
+          ) {
+            <p-message severity="error">
+              {{ 'requiredField' | translate }}
+            </p-message>
+          }
+
+          @if (errorFields()?.TableNumber) {
+            <p-message severity="error">
+              {{ errorFields()?.TableNumber }}
+            </p-message>
+          }
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="seatingCapacity" class="required">
+            {{ 'seatingCapacity' | translate }}
+          </label>
+
+          <p-inputnumber
+            inputId="seatingCapacity"
+            formControlName="seatingCapacity"
+            [min]="1"
+            [max]="100"
+            [showButtons]="true"
+          />
+
+          @if (
+            form.controls.seatingCapacity.touched &&
+            form.controls.seatingCapacity.hasError('required')
+          ) {
+            <p-message severity="error">
+              {{ 'requiredField' | translate }}
+            </p-message>
+          }
+
+          @if (
+            form.controls.seatingCapacity.touched &&
+            (form.controls.seatingCapacity.hasError('min') ||
+              form.controls.seatingCapacity.hasError('max'))
+          ) {
+            <p-message severity="error">
+              {{ 'seatingCapacityRange' | translate }}
+            </p-message>
+          }
+
+          @if (errorFields()?.SeatingCapacity) {
+            <p-message severity="error">
+              {{ errorFields()?.SeatingCapacity }}
+            </p-message>
+          }
+        </div>
+
+        @if (errorMessage()) {
+          <p-message severity="error">
+            {{ errorMessage() }}
+          </p-message>
+        }
+
+        <div class="flex justify-end gap-2 mt-4">
+          <button
+            pButton
+            type="button"
+            severity="secondary"
+            outlined
+            (click)="router.navigate(['/dashboard/dining-tables'])"
+          >
+            {{ 'cancel' | translate }}
+          </button>
+
+          <button pButton type="submit" [disabled]="saving()">
+            @if (saving()) {
+              <i class="pi pi-spin pi-spinner"></i>
+            }
+
+            {{ 'save' | translate }}
+          </button>
+        </div>
+      </form>
+    }
+  </p-card>
+</div>

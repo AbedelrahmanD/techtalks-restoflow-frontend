@@ -1,0 +1,87 @@
+@if (errorMessage()) {
+  <div class="mb-4">
+    <p-message severity="error">
+      {{ errorMessage() }}
+    </p-message>
+  </div>
+}
+
+<app-data-table [table]="dt" (new)="navigateToNew()">
+  <p-table
+    #dt
+    [value]="tables()"
+    [loading]="loading()"
+    [globalFilterFields]="['tableNumber']"
+    [paginator]="tableConfig.paginator"
+    [rows]="tableConfig.rows"
+    [rowsPerPageOptions]="tableConfig.rowsPerPageOptions"
+  >
+    <ng-template #header>
+      <tr>
+        <th pSortableColumn="tableNumber">
+          {{ 'tableNumber' | translate }}
+          <p-sort-icon field="tableNumber" />
+        </th>
+
+        <th pSortableColumn="seatingCapacity">
+          {{ 'seatingCapacity' | translate }}
+          <p-sort-icon field="seatingCapacity" />
+        </th>
+
+        <th>
+          {{ 'actions' | translate }}
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-table>
+      <tr>
+        <td>
+          {{ table.tableNumber }}
+        </td>
+
+        <td>
+          {{ table.seatingCapacity }}
+        </td>
+
+        <td>
+          <button
+            pButton
+            type="button"
+            severity="info"
+            text
+            size="small"
+            (click)="navigateToEdit(table.id)"
+          >
+            <svg data-p-icon="pencil"></svg>
+          </button>
+
+          <button
+            pButton
+            type="button"
+            severity="danger"
+            text
+            size="small"
+            (click)="deleteTable(table.id)"
+          >
+            <svg data-p-icon="trash"></svg>
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="3">
+          <div class="flex flex-col items-center justify-center gap-2 py-6">
+            <svg data-p-icon="inbox" class="w-8 h-8 text-slate-300"></svg>
+
+            <span class="text-sm">
+              {{ 'noRecords' | translate }}
+            </span>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</app-data-table>
