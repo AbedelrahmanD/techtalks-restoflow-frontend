@@ -51,5 +51,18 @@
     "newDiningTable": "New Dining Table",
     "editDiningTable": "Edit Dining Table",
     "deleteDiningTableConfirm": "Are you sure you want to delete this table?",
-    "seatingCapacityRange": "Must be between 1 and 100"
+    "seatingCapacityRange": "Must be between 1 and 100",
+    "menuTitle": "Restaurant Menu",
+    "menuSubtitle": "Discover the dishes that define the experience.",
+    "menuHeroLabel": "Today’s menu",
+    "menuCategoriesCount": "{{count}} categories",
+    "menuCategoryLabel": "Category",
+    "menuDishesCount": "{{count}} dishes available",
+    "menuPreparing": "Preparing your menu...",
+    "menuError": "We could not load the menu right now. Please try again later.",
+    "menuRestaurantLogoAlt": "Restaurant logo",
+    "menuAdd": "Add",
+    "cartTotal": "Total Value",
+    "viewCart": "View Cart",
+    "checkout": "Checkout"
 }

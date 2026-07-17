@@ -50,5 +50,18 @@
     "newDiningTable": "طاولة جديدة",
     "editDiningTable": "تعديل الطاولة",
     "deleteDiningTableConfirm": "هل أنت متأكد من رغبتك في حذف هذه الطاولة؟",
-    "seatingCapacityRange": "يجب أن تكون بين 1 و 100"
+    "seatingCapacityRange": "يجب أن تكون بين 1 و 100",
+    "menuTitle": "قائمة المطعم",
+    "menuSubtitle": "اكتشف الأطباق التي تحدد التجربة.",
+    "menuHeroLabel": "قائمة اليوم",
+    "menuCategoriesCount": "{{count}} فئة",
+    "menuCategoryLabel": "الفئة",
+    "menuDishesCount": "{{count}} طبق متاح",
+    "menuPreparing": "جارٍ تجهيز القائمة...",
+    "menuError": "تعذر تحميل القائمة في الوقت الحالي. يرجى المحاولة لاحقًا.",
+    "menuRestaurantLogoAlt": "شعار المطعم",
+    "menuAdd": "إضافة",
+    "cartTotal": "القيمة الإجمالية",
+    "viewCart": "عرض السلة",
+    "checkout": "الدفع"
 }
