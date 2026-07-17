@@ -32,6 +32,7 @@ export class Dashboard {
   ];
   menuItems = [
     { label: 'menuUsers', route: '/dashboard/users', icon: 'pi pi-users' },
+    { label: 'menuCategories', route: '/dashboard/categories', icon: 'pi pi-tags' },
     { label: 'menuDiningTables', route: '/dashboard/dining-tables', icon: 'pi pi-table' },
     { label: 'menuItems', route: '/dashboard/menu', icon: 'pi pi-book' },
     { label: 'menuQuestions', route: '/dashboard/feedback-questions', icon: 'pi pi-question-circle' },
