@@ -46,7 +46,7 @@ export class SettingsForm implements OnInit {
     saving = signal(false);
     errorMessage = signal<string | null>(null);
     successMessage = signal<string | null>(null);
-    selectedLogo = signal<File | null>(null);
+    selectedLogo = signal<File | undefined>(undefined);
     logoUrl = signal<string | null>(null);
     currencies = signal<CurrencyDto[]>([]);
     errorFields = signal<any>({});
@@ -70,7 +70,7 @@ export class SettingsForm implements OnInit {
         this.settingsService.getSettings().subscribe({
             next: (settings) => {
                 this.form.patchValue({
-                    currencyId: settings.currencyId ?? 0,
+                    currencyId: settings.currency?.id ?? 0,
                     restaurantName: settings.restaurantName ?? ''
                 });
                 this.logoUrl.set(settings.logoUrl ? environment.baseUrl + '/' + settings.logoUrl : null);
@@ -83,7 +83,7 @@ export class SettingsForm implements OnInit {
     }
 
     onLogoSelect(event: any): void {
-        const file = event?.files?.[0] ?? null;
+        const file = event?.files?.[0] ?? undefined;
         this.selectedLogo.set(file);
     }
 

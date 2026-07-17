@@ -1,14 +1,16 @@
+import { CurrencyDto } from './currency.model';
+
 export interface SettingsDto {
-    id?: number;
-    currencyId?: number | null;
-    restaurantName?: string | null;
-    logoUrl?: string | null;
+    id: number;
+    currency: CurrencyDto;
+    restaurantName: string;
+    logoUrl: string;
 }
 
 export interface SettingsCreateDto {
     currencyId: number;
     restaurantName: string;
-    logo?: File | null;
+    logo?: File;
 }
 
 
