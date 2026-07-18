@@ -1,89 +1,63 @@
 <div class="flex items-center justify-center p-4">
-    <p-card class="w-full max-w-lg">
+  <p-card class="w-full max-w-lg">
+    <ng-template #title>
+      <button
+        pButton
+        type="button"
+        text
+        severity="secondary"
+        (click)="router.navigate(['/dashboard/dining-tables'])"
+      >
+        <i class="pi pi-arrow-left"></i>
+      </button>
 
-        <ng-template #title>
-            <button
-                pButton
-                type="button"
-                text
-                severity="secondary"
-                (click)="router.navigate(['/dashboard/dining-tables'])">
+      {{ 'tableQrCode' | translate }}
+    </ng-template>
 
-                <i class="pi pi-arrow-left"></i>
-            </button>
+    @if (loading()) {
+      <div class="flex justify-center py-8">
+        <app-spinner />
+      </div>
+    } @else if (errorMessage()) {
+      <p-message severity="error">
+        {{ errorMessage() }}
+      </p-message>
+    } @else {
+      <div class="flex flex-col items-center gap-4 px-4 pb-4">
+        <div class="print-area flex flex-col items-center gap-4">
+          <div class="text-lg font-semibold text-slate-100">
+            {{ 'tableNumber' | translate }}: {{ table()?.tableNumber }}
+          </div>
 
-            {{ 'tableQrCode' | translate }}
-        </ng-template>
+          <canvas #qrCanvas class="rounded-lg border border-slate-200"></canvas>
+        </div>
 
-        @if (loading()) {
+        <div class="text-sm text-slate-400 break-all text-center">
+          {{ qrValue() }}
+        </div>
 
-            <div class="flex justify-center py-8">
-                <app-spinner />
-            </div>
+        <div class="flex flex-wrap justify-end gap-2 mt-4 w-full">
+          <button
+            pButton
+            type="button"
+            severity="secondary"
+            outlined
+            (click)="router.navigate(['/dashboard/dining-tables'])"
+          >
+            {{ 'cancel' | translate }}
+          </button>
 
-        } @else if (errorMessage()) {
+          <button pButton type="button" severity="secondary" outlined (click)="printQrCode()">
+            <i class="pi pi-print"></i>
+            {{ 'printQrCode' | translate }}
+          </button>
 
-            <p-message severity="error">
-                {{ errorMessage() }}
-            </p-message>
-
-        } @else {
-
-            <div class="flex flex-col items-center gap-4 px-4 pb-4">
-
-                <div class="print-area flex flex-col items-center gap-4">
-
-                    <div class="text-lg font-semibold text-slate-100">
-                        {{ 'tableNumber' | translate }}: {{ table()?.tableNumber }}
-                    </div>
-
-                    <canvas #qrCanvas class="rounded-lg border border-slate-200"></canvas>
-
-                </div>
-
-                <div class="text-sm text-slate-400 break-all text-center">
-                    {{ qrValue() }}
-                </div>
-
-                <div class="flex flex-wrap justify-end gap-2 mt-4 w-full">
-
-                    <button
-                        pButton
-                        type="button"
-                        severity="secondary"
-                        outlined
-                        (click)="router.navigate(['/dashboard/dining-tables'])">
-
-                        {{ 'cancel' | translate }}
-
-                    </button>
-
-                    <button
-                        pButton
-                        type="button"
-                        severity="secondary"
-                        outlined
-                        (click)="printQrCode()">
-
-                        <i class="pi pi-print"></i>
-                        {{ 'printQrCode' | translate }}
-
-                    </button>
-
-                    <button
-                        pButton
-                        type="button"
-                        (click)="downloadQrCode()">
-
-                        <i class="pi pi-download"></i>
-                        {{ 'downloadQrCode' | translate }}
-
-                    </button>
-
-                </div>
-
-            </div>
-        }
-
-    </p-card>
+          <button pButton type="button" (click)="downloadQrCode()">
+            <i class="pi pi-download"></i>
+            {{ 'downloadQrCode' | translate }}
+          </button>
+        </div>
+      </div>
+    }
+  </p-card>
 </div>
