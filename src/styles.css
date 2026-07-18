@@ -1,45 +1,62 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Readex+Pro:wght@300;400;500;700&display=swap');
-@import "primeicons/primeicons.css";
-@import "tailwindcss";
+@import 'primeicons/primeicons.css';
+@import 'tailwindcss';
 
 @theme {
-    --color-primary: #093b66;
-    --color-primary-50: #f0f5fa;
-    --color-primary-100: #e0ebf5;
-    --color-primary-200: #b3ccdf;
-    --color-primary-500: #093b66;
-    --color-primary-600: #072e50;
-    --color-primary-900: #031525;
-    --color-brand-orange: #d9652b;
+  --color-primary: #093b66;
+  --color-primary-50: #f0f5fa;
+  --color-primary-100: #e0ebf5;
+  --color-primary-200: #b3ccdf;
+  --color-primary-500: #093b66;
+  --color-primary-600: #072e50;
+  --color-primary-900: #031525;
+  --color-brand-orange: #d9652b;
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    font-family: 'Inter', 'Readex Pro', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Inter', 'Readex Pro', sans-serif;
 }
 
 #p-license-host {
-    display: none !important;
+  display: none !important;
 }
 
 label {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .required::after {
-    content: " * ";
-    color: red;
+  content: ' * ';
+  color: red;
 }
 
 [dir='rtl'] .pi-arrow-left {
-    transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+
+  .print-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
 }

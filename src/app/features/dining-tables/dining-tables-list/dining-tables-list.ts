@@ -68,6 +68,10 @@ export class DiningTablesList implements OnInit {
     this.router.navigate(['/dashboard/dining-tables/edit', id]);
   }
 
+  navigateToQr(id: number | string): void {
+    this.router.navigate(['/dashboard/dining-tables/qr', id]);
+  }
+
   deleteTable(id: number | string): void {
     const confirmed = confirm(this.translate.instant('deleteDiningTableConfirm'));
 
