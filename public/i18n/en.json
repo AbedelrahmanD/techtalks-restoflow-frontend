@@ -64,5 +64,11 @@
     "menuAdd": "Add",
     "cartTotal": "Total Value",
     "viewCart": "View Cart",
-    "checkout": "Checkout"
+    "checkout": "Checkout",
+    "categories": "Categories",
+    "categoryName": "Category Name",
+    "newCategory": "New Category",
+    "editCategory": "Edit Category",
+    "deleteCategoryConfirm": "Are you sure you want to delete this category?",
+    "image": "Image"
 }

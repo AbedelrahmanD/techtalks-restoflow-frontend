@@ -63,5 +63,11 @@
     "menuAdd": "إضافة",
     "cartTotal": "القيمة الإجمالية",
     "viewCart": "عرض السلة",
-    "checkout": "الدفع"
+    "checkout": "الدفع",
+    "categories": "الفئات",
+    "categoryName": "اسم الفئة",
+    "newCategory": "فئة جديدة",
+    "editCategory": "تعديل الفئة",
+    "deleteCategoryConfirm": "هل أنت متأكد من رغبتك في حذف هذه الفئة؟",
+    "image": "الصورة"
 }
