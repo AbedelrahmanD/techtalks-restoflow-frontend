@@ -12,6 +12,12 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/menu/menu').then(m => m.Menu),
   },
+ {
+  path: 'feedback',
+  loadComponent: () =>
+    import('./features/customer-feedback/customer-feedback')
+      .then((m) => m.CustomerFeedback),
+},
   {
     path: 'dashboard',
     loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),

@@ -1,0 +1,43 @@
+.rating-number {
+  width: 56px;
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid #dbe3ec;
+  border-radius: 18px;
+
+  background: white;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  color: #64748b;
+
+  transition: all .25s ease;
+}
+
+.rating-number:hover {
+  border-color: #f59e0b;
+  background: #fff8eb;
+  color: #f59e0b;
+
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(245,158,11,.15);
+}
+
+.rating-number-selected {
+  background: var(--p-primary-color);
+  border-color: var(--p-primary-color);
+  color: white;
+
+  transform: translateY(-3px);
+
+  box-shadow: 0 10px 20px rgba(15,76,117,.25);
+}
+
+.rating-number:active {
+  transform: scale(.95);
+}
