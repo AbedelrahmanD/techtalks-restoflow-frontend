@@ -1,0 +1,155 @@
+<div class="flex items-center justify-center p-4">
+    <p-card class="w-full max-w-lg">
+
+        <ng-template #title>
+            <button
+                pButton
+                type="button"
+                text
+                severity="secondary"
+                (click)="router.navigate(['/dashboard/categories'])">
+
+                <i class="pi pi-arrow-left"></i>
+            </button>
+
+            {{
+                isEdit()
+                    ? ('editCategory' | translate)
+                    : ('newCategory' | translate)
+            }}
+        </ng-template>
+
+        @if (loading()) {
+
+            <div class="flex justify-center py-8">
+                <app-spinner />
+            </div>
+
+        } @else {
+
+            <form
+                [formGroup]="form"
+                (ngSubmit)="onSubmit()"
+                class="flex flex-col gap-4 px-4">
+
+                <div class="flex flex-col gap-2">
+
+                    <label for="name" class="required">
+                        {{ 'categoryName' | translate }}
+                    </label>
+
+                    <input
+                        pInputText
+                        id="name"
+                        formControlName="name"
+                        maxlength="255" />
+
+                    @if (
+                        form.controls.name.touched &&
+                        form.controls.name.hasError('required')
+                    ) {
+                        <p-message severity="error">
+                            {{ 'requiredField' | translate }}
+                        </p-message>
+                    }
+
+                    @if (errorFields()?.Name) {
+                        <p-message severity="error">
+                            {{ errorFields()?.Name }}
+                        </p-message>
+                    }
+
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label for="image">
+                        {{ 'image' | translate }}
+                    </label>
+
+                    <p-fileupload
+                        mode="advanced"
+                        accept="image/*"
+                        [showUploadButton]="false"
+                        [showCancelButton]="false"
+                        [chooseLabel]="'chooseFile' | translate"
+                        (onSelect)="onImageSelect($event)">
+
+                        <ng-template #content let-files>
+                            @if (files?.length || imageUrl()) {
+                                <div class="flex justify-center">
+                                    <img
+                                        [src]="files?.length ? files[0].objectURL : imageUrl()"
+                                        class="max-h-40 rounded-md object-contain" />
+                                </div>
+                            }
+                        </ng-template>
+                    </p-fileupload>
+
+                    @if (errorFields()?.Image) {
+                        <p-message severity="error">
+                            {{ errorFields()?.Image }}
+                        </p-message>
+                    }
+                </div>
+
+                <div class="flex items-center justify-between gap-4">
+
+                    <div class="flex flex-col gap-1">
+                        <label for="isActive">
+                            {{ 'status' | translate }}
+                        </label>
+
+                        <span class="text-sm text-slate-400">
+                            {{
+                                form.controls.isActive.value
+                                    ? ('active' | translate)
+                                    : ('inactive' | translate)
+                            }}
+                        </span>
+                    </div>
+
+                    <p-toggleswitch
+                        inputId="isActive"
+                        formControlName="isActive" />
+
+                </div>
+
+                @if (errorMessage()) {
+                    <p-message severity="error">
+                        {{ errorMessage() }}
+                    </p-message>
+                }
+
+                <div class="flex justify-end gap-2 mt-4">
+
+                    <button
+                        pButton
+                        type="button"
+                        severity="secondary"
+                        outlined
+                        (click)="router.navigate(['/dashboard/categories'])">
+
+                        {{ 'cancel' | translate }}
+
+                    </button>
+
+                    <button
+                        pButton
+                        type="submit"
+                        [disabled]="saving()">
+
+                        @if (saving()) {
+                            <i class="pi pi-spin pi-spinner"></i>
+                        }
+
+                        {{ 'save' | translate }}
+
+                    </button>
+
+                </div>
+
+            </form>
+        }
+
+    </p-card>
+</div>

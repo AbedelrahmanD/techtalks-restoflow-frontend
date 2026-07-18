@@ -41,6 +41,32 @@ export const routes: Routes = [
         ],
       },
       {
+        path: 'categories',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./features/categories/categories-list/categories-list').then(
+                (m) => m.CategoriesList,
+              ),
+          },
+          {
+            path: 'new',
+            loadComponent: () =>
+              import('./features/categories/category-form/category-form').then(
+                (m) => m.CategoryForm,
+              ),
+          },
+          {
+            path: 'edit/:id',
+            loadComponent: () =>
+              import('./features/categories/category-form/category-form').then(
+                (m) => m.CategoryForm,
+              ),
+          },
+        ],
+      },
+      {
         path: 'dining-tables',
         children: [
           {
