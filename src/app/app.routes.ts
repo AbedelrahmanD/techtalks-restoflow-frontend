@@ -1,4 +1,3 @@
-
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 
@@ -9,15 +8,13 @@ export const routes: Routes = [
   },
   {
     path: 'menu',
-    loadComponent: () =>
-      import('./features/menu/menu').then(m => m.Menu),
+    loadComponent: () => import('./features/menu/menu').then((m) => m.Menu),
   },
- {
-  path: 'feedback',
-  loadComponent: () =>
-    import('./features/customer-feedback/customer-feedback')
-      .then((m) => m.CustomerFeedback),
-},
+  {
+    path: 'feedback',
+    loadComponent: () =>
+      import('./features/customer-feedback/customer-feedback').then((m) => m.CustomerFeedback),
+  },
   {
     path: 'dashboard',
     loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
@@ -65,6 +62,13 @@ export const routes: Routes = [
             loadComponent: () =>
               import('./features/dining-tables/dining-table-form/dining-table-form').then(
                 (m) => m.DiningTableForm,
+              ),
+          },
+          {
+            path: 'qr/:id',
+            loadComponent: () =>
+              import('./features/dining-tables/dining-table-qr/dining-table-qr').then(
+                (m) => m.DiningTableQr,
               ),
           },
         ],

@@ -82,5 +82,7 @@
 "feedbackSuccess": "Thank you! Your feedback was submitted successfully.",
 "feedbackSubmitError": "We could not submit your feedback. Please try again.",
 "feedbackRatingPoor": "Poor",
-"feedbackRatingExcellent": "Excellent"
+"feedbackRatingExcellent": "Excellent",
+"tableQrCode": "Table QR Code",
+    "downloadQrCode": "Download QR Code"
 }

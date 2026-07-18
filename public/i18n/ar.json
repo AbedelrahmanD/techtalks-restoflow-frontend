@@ -81,5 +81,7 @@
 "feedbackSuccess": "شكرًا لك! تم إرسال تقييمك بنجاح.",
 "feedbackSubmitError": "تعذر إرسال التقييم. يرجى المحاولة مرة أخرى.",
 "feedbackRatingPoor": "سيئ",
-"feedbackRatingExcellent": "ممتاز"
+"feedbackRatingExcellent": "ممتاز",
+"tableQrCode": "رمز QR للطاولة",
+    "downloadQrCode": "تحميل رمز QR"
 }

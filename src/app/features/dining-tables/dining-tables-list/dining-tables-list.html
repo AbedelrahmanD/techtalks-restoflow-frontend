@@ -59,6 +59,17 @@
           <button
             pButton
             type="button"
+            severity="secondary"
+            text
+            size="small"
+            (click)="navigateToQr(table.id)"
+          >
+            <i class="pi pi-qrcode"></i>
+          </button>
+
+          <button
+            pButton
+            type="button"
             severity="danger"
             text
             size="small"
