@@ -91,5 +91,6 @@
 "feedbackRatingPoor": "Poor",
 "feedbackRatingExcellent": "Excellent",
 "tableQrCode": "Table QR Code",
-    "downloadQrCode": "Download QR Code"
+    "downloadQrCode": "Download QR Code",
+    "printQrCode": "Print QR Code"
 }

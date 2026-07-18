@@ -89,5 +89,6 @@
 "feedbackRatingPoor": "سيئ",
 "feedbackRatingExcellent": "ممتاز",
 "tableQrCode": "رمز QR للطاولة",
-    "downloadQrCode": "تحميل رمز QR"
+    "downloadQrCode": "تحميل رمز QR",
+    "printQrCode": "طباعة رمز QR"
 }

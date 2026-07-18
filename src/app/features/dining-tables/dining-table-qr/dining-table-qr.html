@@ -1,56 +1,89 @@
 <div class="flex items-center justify-center p-4">
-  <p-card class="w-full max-w-lg">
-    <ng-template #title>
-      <button
-        pButton
-        type="button"
-        text
-        severity="secondary"
-        (click)="router.navigate(['/dashboard/dining-tables'])"
-      >
-        <i class="pi pi-arrow-left"></i>
-      </button>
+    <p-card class="w-full max-w-lg">
 
-      {{ 'tableQrCode' | translate }}
-    </ng-template>
+        <ng-template #title>
+            <button
+                pButton
+                type="button"
+                text
+                severity="secondary"
+                (click)="router.navigate(['/dashboard/dining-tables'])">
 
-    @if (loading()) {
-      <div class="flex justify-center py-8">
-        <app-spinner />
-      </div>
-    } @else if (errorMessage()) {
-      <p-message severity="error">
-        {{ errorMessage() }}
-      </p-message>
-    } @else {
-      <div class="flex flex-col items-center gap-4 px-4 pb-4">
-        <div class="text-lg font-semibold text-slate-100">
-          {{ 'tableNumber' | translate }}: {{ table()?.tableNumber }}
-        </div>
+                <i class="pi pi-arrow-left"></i>
+            </button>
 
-        <canvas #qrCanvas class="rounded-lg border border-slate-200"></canvas>
+            {{ 'tableQrCode' | translate }}
+        </ng-template>
 
-        <div class="text-sm text-slate-400 break-all text-center">
-          {{ qrValue() }}
-        </div>
+        @if (loading()) {
 
-        <div class="flex justify-end gap-2 mt-4 w-full">
-          <button
-            pButton
-            type="button"
-            severity="secondary"
-            outlined
-            (click)="router.navigate(['/dashboard/dining-tables'])"
-          >
-            {{ 'cancel' | translate }}
-          </button>
+            <div class="flex justify-center py-8">
+                <app-spinner />
+            </div>
 
-          <button pButton type="button" (click)="downloadQrCode()">
-            <i class="pi pi-download"></i>
-            {{ 'downloadQrCode' | translate }}
-          </button>
-        </div>
-      </div>
-    }
-  </p-card>
+        } @else if (errorMessage()) {
+
+            <p-message severity="error">
+                {{ errorMessage() }}
+            </p-message>
+
+        } @else {
+
+            <div class="flex flex-col items-center gap-4 px-4 pb-4">
+
+                <div class="print-area flex flex-col items-center gap-4">
+
+                    <div class="text-lg font-semibold text-slate-100">
+                        {{ 'tableNumber' | translate }}: {{ table()?.tableNumber }}
+                    </div>
+
+                    <canvas #qrCanvas class="rounded-lg border border-slate-200"></canvas>
+
+                </div>
+
+                <div class="text-sm text-slate-400 break-all text-center">
+                    {{ qrValue() }}
+                </div>
+
+                <div class="flex flex-wrap justify-end gap-2 mt-4 w-full">
+
+                    <button
+                        pButton
+                        type="button"
+                        severity="secondary"
+                        outlined
+                        (click)="router.navigate(['/dashboard/dining-tables'])">
+
+                        {{ 'cancel' | translate }}
+
+                    </button>
+
+                    <button
+                        pButton
+                        type="button"
+                        severity="secondary"
+                        outlined
+                        (click)="printQrCode()">
+
+                        <i class="pi pi-print"></i>
+                        {{ 'printQrCode' | translate }}
+
+                    </button>
+
+                    <button
+                        pButton
+                        type="button"
+                        (click)="downloadQrCode()">
+
+                        <i class="pi pi-download"></i>
+                        {{ 'downloadQrCode' | translate }}
+
+                    </button>
+
+                </div>
+
+            </div>
+        }
+
+    </p-card>
 </div>
