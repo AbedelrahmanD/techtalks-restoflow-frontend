@@ -1,0 +1,234 @@
+<div
+  class="min-h-screen bg-[#f3efe7] px-4 py-8 text-slate-800 sm:px-6 lg:px-8"
+>
+  <div class="mx-auto max-w-6xl">
+    <header class="mb-8 flex items-center justify-between">
+      <div>
+        <p
+          class="mb-1 text-xs font-bold uppercase tracking-[0.2em] text-brand-orange"
+        >
+          {{ 'feedbackHeroLabel' | translate }}
+        </p>
+
+        <h1 class="text-2xl font-black tracking-tight text-primary-900 sm:text-3xl">
+          {{ settings()?.restaurantName || ('feedbackPageTitle' | translate) }}
+        </h1>
+      </div>
+
+      <div
+        class="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-white p-1 shadow-sm"
+      >
+        @if (settings()?.logoUrl) {
+          <img
+            [src]="settings()?.logoUrl | menuItemImage"
+            [alt]="'feedbackRestaurantLogoAlt' | translate"
+            class="h-full w-full rounded-full object-cover"
+          />
+        } @else {
+          <i class="pi pi-building text-xl text-primary"></i>
+        }
+      </div>
+    </header>
+
+    @if (submittedSuccessfully()) {
+      <section
+        class="rounded-3xl border border-emerald-100 bg-white p-8 text-center shadow-sm sm:p-12"
+      >
+        <div
+          class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600"
+        >
+          <i class="pi pi-check text-2xl"></i>
+        </div>
+
+        <h2 class="mt-5 text-2xl font-black text-primary-900">
+          {{ 'feedbackSuccessTitle' | translate }}
+        </h2>
+
+        <p class="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-500">
+          {{ 'feedbackSuccess' | translate }}
+        </p>
+
+        <button
+          type="button"
+          (click)="submitAnotherFeedback()"
+          class="mt-7 rounded-xl bg-primary px-6 py-3 text-sm font-bold text-white shadow-sm transition-opacity hover:opacity-90"
+        >
+          {{ 'feedbackSubmitAnother' | translate }}
+        </button>
+      </section>
+    } @else {
+      <section class="overflow-hidden rounded-3xl bg-white shadow-sm">
+        <div class="border-b border-slate-100 px-5 py-6 sm:px-8">
+          <h2 class="text-xl font-black text-primary-900">
+            {{ 'feedbackPageTitle' | translate }}
+          </h2>
+
+          <p class="mt-2 text-sm leading-6 text-slate-500">
+            {{ 'feedbackPageSubtitle' | translate }}
+          </p>
+        </div>
+
+        @if (loading()) {
+          <div class="flex min-h-72 flex-col items-center justify-center p-8">
+            <div
+              class="h-9 w-9 animate-spin rounded-full border-4 border-primary border-t-transparent"
+            ></div>
+
+            <p class="mt-4 text-sm font-semibold text-slate-500">
+              {{ 'feedbackLoading' | translate }}
+            </p>
+          </div>
+        } @else if (errorMessage() && questions().length === 0) {
+          <div class="p-8 text-center">
+            <div
+              class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-rose-100 text-rose-600"
+            >
+              <i class="pi pi-exclamation-triangle text-xl"></i>
+            </div>
+
+            <p class="mt-4 text-sm font-semibold text-rose-700">
+              {{ errorMessage() }}
+            </p>
+
+            <button
+              type="button"
+              (click)="loadQuestions()"
+              class="mt-5 rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-white"
+            >
+              {{ 'feedbackTryAgain' | translate }}
+            </button>
+          </div>
+        } @else if (questions().length === 0) {
+          <div class="p-8 text-center text-sm font-semibold text-slate-500">
+            {{ 'feedbackNoQuestions' | translate }}
+          </div>
+        } @else {
+          <form
+            class="space-y-8 p-5 sm:p-8"
+            (ngSubmit)="submitFeedback()"
+          >
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+             @for (question of questions(); track question.id; let index = $index) {
+  <div
+    class="flex min-h-[260px] flex-col justify-between rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+  >
+    <div>
+      <div class="flex items-start justify-between gap-4">
+        <span
+          class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-black text-white"
+        >
+          {{ index + 1 }}
+        </span>
+
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">
+          {{ index + 1 }}/{{ questions().length }}
+        </span>
+      </div>
+
+      <h3 class="mt-6 text-lg font-black leading-7 text-primary-900">
+        {{ question.question }}
+      </h3>
+    </div>
+
+    <div class="mt-8">
+    <div class="mt-8 flex justify-center gap-3">
+  @for (rating of ratingValues; track rating) {
+    <button
+      type="button"
+      (click)="setRating(question.id, rating)"
+      class="rating-number"
+      [class.rating-number-selected]="
+        getRating(question.id) === rating
+      "
+    >
+      {{ rating }}
+    </button>
+  }
+</div>
+
+<div class="mt-3 flex justify-between text-xs font-semibold text-slate-400">
+  <span>{{ 'feedbackRatingPoor' | translate }}</span>
+  <span>{{ 'feedbackRatingExcellent' | translate }}</span>
+</div>
+
+
+    </div>
+  </div>
+}
+            </div>
+
+            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+  <div class="grid gap-5 md:grid-cols-2">
+    <div>
+      <label
+        for="customerPhone"
+        class="mb-2 block text-sm font-bold text-primary-900"
+      >
+        {{ 'feedbackPhoneLabel' | translate }}
+      </label>
+
+      <input
+        id="customerPhone"
+        name="customerPhone"
+        type="tel"
+        [(ngModel)]="customerPhone"
+        [placeholder]="'feedbackPhonePlaceholder' | translate"
+        class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/10"
+      />
+    </div>
+
+    <div>
+      <label
+        for="customerNote"
+        class="mb-2 block text-sm font-bold text-primary-900"
+      >
+        {{ 'feedbackNoteLabel' | translate }}
+      </label>
+
+      <textarea
+        id="customerNote"
+        name="customerNote"
+        rows="4"
+        [(ngModel)]="customerNote"
+        [placeholder]="'feedbackNotePlaceholder' | translate"
+        class="w-full resize-none rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/10"
+      ></textarea>
+    </div>
+  </div>
+</div>
+
+            @if (validationMessage()) {
+              <div
+                class="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm font-semibold text-amber-700"
+              >
+                {{ validationMessage() }}
+              </div>
+            }
+
+            @if (errorMessage()) {
+              <div
+                class="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm font-semibold text-rose-700"
+              >
+                {{ errorMessage() }}
+              </div>
+            }
+
+            <button
+              type="submit"
+              [disabled]="submitting()"
+              class="flex w-full items-center justify-center gap-2 rounded-xl bg-brand-orange px-6 py-3.5 text-sm font-extrabold text-white shadow-sm transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              @if (submitting()) {
+                <i class="pi pi-spinner pi-spin"></i>
+                <span>{{ 'feedbackSubmitting' | translate }}</span>
+              } @else {
+                <i class="pi pi-send"></i>
+                <span>{{ 'feedbackSubmit' | translate }}</span>
+              }
+            </button>
+          </form>
+        }
+      </section>
+    }
+  </div>
+</div>
