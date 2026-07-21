@@ -1,0 +1,139 @@
+<div class="p-4">
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="text-2xl font-bold text-slate-100">
+      {{ 'kitchenDisplay' | translate }}
+    </h1>
+
+    <button pButton type="button" severity="secondary" outlined (click)="logout()">
+      {{ 'logout' | translate }}
+    </button>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="mb-4">
+      <p-message severity="error">
+        {{ errorMessage() }}
+      </p-message>
+    </div>
+  }
+
+  @if (loading()) {
+    <div class="flex justify-center py-8">
+      <app-spinner />
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- Pending column -->
+      <div class="rounded-lg bg-slate-900 p-3">
+        <h2 class="font-semibold text-slate-100 mb-3">
+          {{ 'pending' | translate }} ({{ pendingOrders().length }})
+        </h2>
+
+        <div class="flex flex-col gap-3">
+          @for (order of pendingOrders(); track order.id) {
+            <p-card>
+              <div class="font-semibold text-slate-100 mb-2">
+                {{ 'tableNumber' | translate }}: {{ order.tableNumber }}
+              </div>
+
+              <ul class="text-sm text-slate-300 mb-3 list-disc pl-4">
+                @for (item of order.items; track item.id) {
+                  <li>
+                    {{ item.quantity }}x {{ item.menuItemName }}
+                    @if (item.note) {
+                      <span class="text-slate-400"> - {{ item.note }}</span>
+                    }
+                  </li>
+                }
+              </ul>
+
+              <button
+                pButton
+                type="button"
+                size="small"
+                class="w-full"
+                (click)="startPreparing(order)"
+              >
+                {{ 'startPreparing' | translate }}
+              </button>
+            </p-card>
+          } @empty {
+            <div class="text-sm text-slate-400 text-center py-4">
+              {{ 'noOrders' | translate }}
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- In Progress column -->
+      <div class="rounded-lg bg-slate-900 p-3">
+        <h2 class="font-semibold text-slate-100 mb-3">
+          {{ 'inProgress' | translate }} ({{ inProgressOrders().length }})
+        </h2>
+
+        <div class="flex flex-col gap-3">
+          @for (order of inProgressOrders(); track order.id) {
+            <p-card>
+              <div class="font-semibold text-slate-100 mb-2">
+                {{ 'tableNumber' | translate }}: {{ order.tableNumber }}
+              </div>
+
+              <ul class="text-sm text-slate-300 mb-3 list-disc pl-4">
+                @for (item of order.items; track item.id) {
+                  <li>
+                    {{ item.quantity }}x {{ item.menuItemName }}
+                    @if (item.note) {
+                      <span class="text-slate-400"> - {{ item.note }}</span>
+                    }
+                  </li>
+                }
+              </ul>
+
+              <button
+                pButton
+                type="button"
+                severity="success"
+                size="small"
+                class="w-full"
+                (click)="markServed(order)"
+              >
+                {{ 'markServed' | translate }}
+              </button>
+            </p-card>
+          } @empty {
+            <div class="text-sm text-slate-400 text-center py-4">
+              {{ 'noOrders' | translate }}
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Served column -->
+      <div class="rounded-lg bg-slate-900 p-3">
+        <h2 class="font-semibold text-slate-100 mb-3">
+          {{ 'served' | translate }} ({{ servedOrders().length }})
+        </h2>
+
+        <div class="flex flex-col gap-3">
+          @for (order of servedOrders(); track order.id) {
+            <p-card>
+              <div class="font-semibold text-slate-100 mb-2">
+                {{ 'tableNumber' | translate }}: {{ order.tableNumber }}
+              </div>
+
+              <ul class="text-sm text-slate-300 list-disc pl-4">
+                @for (item of order.items; track item.id) {
+                  <li>{{ item.quantity }}x {{ item.menuItemName }}</li>
+                }
+              </ul>
+            </p-card>
+          } @empty {
+            <div class="text-sm text-slate-400 text-center py-4">
+              {{ 'noOrders' | translate }}
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>

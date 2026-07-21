@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TranslatePipe, TranslateService } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -10,9 +10,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
 import { AuthService } from '../../../core/services/auth.service';
 import { LoginCredentials } from '../../../core/models/auth.models';
-import { Spinner } from "../../../shared/ui/spinner/spinner";
+import { Spinner } from '../../../shared/ui/spinner/spinner';
 import { InputPasswordModule } from 'primeng/inputpassword';
-import { LanguageSwitcher } from "../../../shared/ui/language-switcher/language-switcher";
+import { LanguageSwitcher } from '../../../shared/ui/language-switcher/language-switcher';
 import { Roles } from '../../../core/enums/roles.enum';
 
 @Component({
@@ -29,10 +29,10 @@ import { Roles } from '../../../core/enums/roles.enum';
     TranslatePipe,
     MessageModule,
     Spinner,
-    InputPasswordModule
+    InputPasswordModule,
   ],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrl: './login.css',
 })
 export class Login {
   private fb = inject(NonNullableFormBuilder);
@@ -42,7 +42,7 @@ export class Login {
   isLoading = signal<boolean>(false);
   loginForm = this.fb.group({
     username: ['', [Validators.required]],
-    password: ['', [Validators.required]]
+    password: ['', [Validators.required]],
   });
 
   onSubmit(): void {
@@ -57,14 +57,14 @@ export class Login {
         this.isLoading.set(false);
         if (response.user.role.id == Roles.Admin) {
           this.router.navigate(['/dashboard']);
+        } else if (response.user.role.id == Roles.KitchenStaff) {
+          this.router.navigate(['/kitchen-display']);
         }
-
       },
       error: (error) => {
         this.isLoading.set(false);
         this.errorMessage.set(error.error?.message || 'An unexpected error occurred');
-      }
+      },
     });
-
   }
 }
