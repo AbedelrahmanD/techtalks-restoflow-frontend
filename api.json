@@ -10,6 +10,23 @@
         }
     ],
     "paths": {
+        "/api/Import": {
+            "get": {
+                "tags": [
+                    "Import"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/api/Auth/login": {
             "post": {
                 "tags": [
@@ -415,6 +432,23 @@
                 ]
             }
         },
+        "/api/customer-feedback/questions": {
+            "get": {
+                "tags": [
+                    "CustomerFeedback"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/api/DiningTable": {
             "get": {
                 "tags": [
@@ -743,6 +777,60 @@
                 ]
             }
         },
+        "/api/FeedbackSession": {
+            "post": {
+                "tags": [
+                    "FeedbackSession"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FeedbackSessionCreateDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FeedbackSessionCreateDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FeedbackSessionCreateDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/Menu": {
+            "get": {
+                "tags": [
+                    "Menu"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/api/MenuItems": {
             "get": {
                 "tags": [
@@ -947,6 +1035,137 @@
                         }
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/Order": {
+            "get": {
+                "tags": [
+                    "Order"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Order"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateOrderDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateOrderDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateOrderDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/Order/table/{qrCodeToken}": {
+            "get": {
+                "tags": [
+                    "Order"
+                ],
+                "parameters": [
+                    {
+                        "name": "qrCodeToken",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/Order/{id}/status": {
+            "put": {
+                "tags": [
+                    "Order"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "pattern": "^-?(?:0|[1-9]\\d*)$",
+                            "type": [
+                                "integer",
+                                "string"
+                            ],
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateOrderStatusDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateOrderStatusDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateOrderStatusDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -1201,6 +1420,23 @@
                     }
                 }
             },
+            "CreateOrderDto": {
+                "type": "object",
+                "properties": {
+                    "qrCodeToken": {
+                        "type": "string"
+                    },
+                    "items": {
+                        "type": [
+                            "null",
+                            "array"
+                        ],
+                        "items": {
+                            "$ref": "#/components/schemas/OrderItemCreateDto"
+                        }
+                    }
+                }
+            },
             "CurrencyCreateDto": {
                 "required": [
                     "code",
@@ -1319,12 +1555,106 @@
                     }
                 }
             },
+            "FeedbackResponseCreateDto": {
+                "type": "object",
+                "properties": {
+                    "questionId": {
+                        "maximum": 2147483647,
+                        "minimum": 1,
+                        "pattern": "^-?(?:0|[1-9]\\d*)$",
+                        "type": [
+                            "integer",
+                            "string"
+                        ],
+                        "format": "int32"
+                    },
+                    "rating": {
+                        "maximum": 5,
+                        "minimum": 1,
+                        "pattern": "^-?(?:0|[1-9]\\d*)$",
+                        "type": [
+                            "integer",
+                            "string"
+                        ],
+                        "format": "int32"
+                    }
+                }
+            },
+            "FeedbackSessionCreateDto": {
+                "required": [
+                    "responses"
+                ],
+                "type": "object",
+                "properties": {
+                    "customerPhone": {
+                        "maxLength": 30,
+                        "minLength": 0,
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "customerNote": {
+                        "maxLength": 1000,
+                        "minLength": 0,
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    },
+                    "responses": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FeedbackResponseCreateDto"
+                        }
+                    }
+                }
+            },
             "IFormFile": {
                 "type": "string",
                 "format": "binary"
             },
+            "OrderItemCreateDto": {
+                "type": "object",
+                "properties": {
+                    "menuItemId": {
+                        "pattern": "^-?(?:0|[1-9]\\d*)$",
+                        "type": [
+                            "integer",
+                            "string"
+                        ],
+                        "format": "int32"
+                    },
+                    "quantity": {
+                        "pattern": "^-?(?:0|[1-9]\\d*)$",
+                        "type": [
+                            "integer",
+                            "string"
+                        ],
+                        "format": "int32"
+                    },
+                    "note": {
+                        "type": [
+                            "null",
+                            "string"
+                        ]
+                    }
+                }
+            },
             "Role": {
                 "type": "integer"
+            },
+            "UpdateOrderStatusDto": {
+                "required": [
+                    "status"
+                ],
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    }
+                }
             },
             "UserCreateDto": {
                 "required": [
@@ -1416,6 +1746,9 @@
     },
     "tags": [
         {
+            "name": "Import"
+        },
+        {
             "name": "Auth"
         },
         {
@@ -1425,13 +1758,25 @@
             "name": "Currency"
         },
         {
+            "name": "CustomerFeedback"
+        },
+        {
             "name": "DiningTable"
         },
         {
             "name": "FeedbackQuestion"
         },
         {
+            "name": "FeedbackSession"
+        },
+        {
+            "name": "Menu"
+        },
+        {
             "name": "MenuItems"
+        },
+        {
+            "name": "Order"
         },
         {
             "name": "Settings"

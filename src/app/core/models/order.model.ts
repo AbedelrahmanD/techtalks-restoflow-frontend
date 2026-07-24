@@ -17,3 +17,14 @@ export interface OrderDto {
   updatedAt: string | null;
   items: OrderItemDto[];
 }
+
+export interface OrderItemCreateDto {
+  menuItemId: number;
+  quantity: number;
+  note: string | null;
+}
+
+export interface CreateOrderDto {
+  qrCodeToken: string;
+  items: OrderItemCreateDto[];
+}
