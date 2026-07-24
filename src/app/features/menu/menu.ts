@@ -1,11 +1,12 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
+import { Component, effect, inject, OnDestroy, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { UploadUrlPipe } from '../../shared/pipes/upload-url.pipe';
 import { MenuItemImagePipe } from '../../shared/pipes/menu-item-image.pipe';
 import { MenuCategoryDto, MenuResponseDto, RestaurantSettingsDto, MenuItemDto } from '../../core/models/menu.model';
 import { MenuService } from '../../core/services/menu.service';
-import { environment } from '../../../environments/environment';
+import { MenuOrdersRealtimeService } from '../../core/services/menu-orders-realtime.service';
+import { OrdersService } from '../../core/services/orders.service';
 
 export interface CartItem {
   item: MenuItemDto;
@@ -19,14 +20,21 @@ export interface CartItem {
   templateUrl: './menu.html',
   styleUrl: './menu.css',
 })
-export class Menu implements OnInit {
+export class Menu implements OnInit, OnDestroy {
   private menuService = inject(MenuService);
+  private menuOrdersRealtimeService = inject(MenuOrdersRealtimeService);
+  private ordersService = inject(OrdersService);
   private translate = inject(TranslateService);
+  private route = inject(ActivatedRoute);
 
   loading = signal(true);
+  placingOrder = signal(false);
   errorMessage = signal<string | null>(null);
+  placeOrderErrorMessage = signal<string | null>(null);
   settings = signal<RestaurantSettingsDto | null>(null);
   menu = signal<MenuCategoryDto[]>([]);
+  qrcode = signal<string | null>(null);
+  currentOrder = this.menuOrdersRealtimeService.currentOrder;
 
   cart = signal<{ [itemId: number]: CartItem }>({});
   isCartOpen = signal(false);
@@ -43,8 +51,39 @@ export class Menu implements OnInit {
     return Object.values(this.cart());
   });
 
+  private syncCartWithCurrentOrder = effect(() => {
+    const order = this.currentOrder();
+
+    if (!order) {
+      this.cart.set({});
+      this.isCartOpen.set(false);
+      return;
+    }
+
+    this.setCartFromOrder(order);
+  });
+
   ngOnInit(): void {
+    const qrcode = this.route.snapshot.paramMap.get('qrcode');
+    this.qrcode.set(qrcode);
+
+    if (qrcode) {
+      this.ordersService.getCurrentTableOrder(qrcode).subscribe({
+        next: (order) => {
+          if (order) {
+            this.menuOrdersRealtimeService.setCurrentOrder(order);
+          }
+        },
+      });
+
+      this.menuOrdersRealtimeService.connect(qrcode);
+    }
+
     this.loadMenu();
+  }
+
+  ngOnDestroy(): void {
+    this.menuOrdersRealtimeService.disconnect();
   }
 
   loadMenu(): void {
@@ -104,8 +143,64 @@ export class Menu implements OnInit {
     this.isCartOpen.set(open);
   }
 
+  isCartLocked(): boolean {
+    return !!this.currentOrder();
+  }
+
+  placeOrder(): void {
+    const qrcode = this.qrcode();
+
+    if (!qrcode) {
+      this.placeOrderErrorMessage.set(this.translate.instant('menuOrderMissingQr'));
+      return;
+    }
+
+    const items = Object.values(this.cart()).map((cartItem) => ({
+      menuItemId: cartItem.item.id,
+      quantity: cartItem.quantity,
+      note: null,
+    }));
+
+    if (items.length === 0) {
+      return;
+    }
+
+    this.placingOrder.set(true);
+    this.placeOrderErrorMessage.set(null);
+
+    this.ordersService.createOrder({ qrCodeToken: qrcode, items }).subscribe({
+      next: (createdOrder) => {
+        this.menuOrdersRealtimeService.setCurrentOrder(createdOrder);
+        this.placeOrderErrorMessage.set(null);
+        this.placingOrder.set(false);
+      },
+      error: () => {
+        this.placeOrderErrorMessage.set(this.translate.instant('menuOrderError'));
+        this.placingOrder.set(false);
+      },
+    });
+  }
+
   formatPrice(price: number, currencySymbol: string): string {
     return `${currencySymbol}${price.toFixed(2)}`;
+  }
+
+  private setCartFromOrder(order: NonNullable<ReturnType<typeof this.currentOrder>>): void {
+    const mappedCart: { [itemId: number]: CartItem } = {};
+
+    for (const orderItem of order.items) {
+      mappedCart[orderItem.menuItemId] = {
+        item: {
+          id: orderItem.menuItemId,
+          name: orderItem.menuItemName,
+          price: orderItem.unitPrice,
+          image: '',
+        },
+        quantity: orderItem.quantity,
+      };
+    }
+
+    this.cart.set(mappedCart);
   }
 
   scrollToCategory(categoryId: number): void {

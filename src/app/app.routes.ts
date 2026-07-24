@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { kitchenGuard } from './core/guards/kitchen.guard';
+import { AdminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
   {
@@ -8,7 +9,7 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/login/login').then((m) => m.Login),
   },
   {
-    path: 'menu',
+    path: 'menu/:qrcode',
     loadComponent: () => import('./features/menu/menu').then((m) => m.Menu),
   },
   {
@@ -25,7 +26,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
-    canActivate: [authGuard],
+    canActivate: [AdminGuard],
     children: [
       {
         path: 'users',

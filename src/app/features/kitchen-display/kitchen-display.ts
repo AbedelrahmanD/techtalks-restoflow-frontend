@@ -5,6 +5,7 @@ import { CardModule } from 'primeng/card';
 import { MessageModule } from 'primeng/message';
 import { TranslatePipe } from '@ngx-translate/core';
 
+import { KitchenOrdersRealtimeService } from '../../core/services/kitchen-orders-realtime.service';
 import { OrdersService } from '../../core/services/orders.service';
 import { AuthService } from '../../core/services/auth.service';
 import { OrderDto } from '../../core/models/order.model';
@@ -18,6 +19,7 @@ import { Spinner } from '../../shared/ui/spinner/spinner';
   styleUrl: './kitchen-display.css',
 })
 export class KitchenDisplay implements OnInit, OnDestroy {
+  private kitchenOrdersRealtimeService = inject(KitchenOrdersRealtimeService);
   private ordersService = inject(OrdersService);
   private authService = inject(AuthService);
   private router = inject(Router);
@@ -25,7 +27,7 @@ export class KitchenDisplay implements OnInit, OnDestroy {
   loading = signal(true);
   errorMessage = signal<string | null>(null);
 
-  orders = this.ordersService.orders;
+  orders = this.kitchenOrdersRealtimeService.orders;
 
   pendingOrders = computed(() => this.orders().filter((o) => o.status === 'New'));
   inProgressOrders = computed(() => this.orders().filter((o) => o.status === 'InProgress'));
@@ -34,7 +36,7 @@ export class KitchenDisplay implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.ordersService.listOrders().subscribe({
       next: (orders) => {
-        this.ordersService.orders.set(orders);
+        this.kitchenOrdersRealtimeService.orders.set(orders);
         this.loading.set(false);
       },
       error: (error) => {
@@ -43,11 +45,11 @@ export class KitchenDisplay implements OnInit, OnDestroy {
       },
     });
 
-    this.ordersService.connect();
+    this.kitchenOrdersRealtimeService.connect();
   }
 
   ngOnDestroy(): void {
-    this.ordersService.disconnect();
+    this.kitchenOrdersRealtimeService.disconnect();
   }
 
   startPreparing(order: OrderDto): void {
