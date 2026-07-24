@@ -106,5 +106,12 @@
   "Served": "تم التقديم",
   "startPreparing": "ابدأ التحضير",
   "markServed": "تم التقديم",
-  "noOrders": "لا توجد طلبات"
+  "noOrders": "لا توجد طلبات",
+  "itemName": "اسم الصنف",
+  "category": "الفئة",
+  "price": "السعر",
+  "description": "الوصف",
+  "newMenuItem": "صنف جديد",
+  "editMenuItem": "تعديل الصنف",
+  "deleteMenuItemConfirm": "هل أنت متأكد من رغبتك في حذف هذا الصنف؟"
 }

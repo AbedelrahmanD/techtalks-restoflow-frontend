@@ -1,0 +1,120 @@
+@if (errorMessage()) {
+  <div class="mb-4">
+    <p-message severity="error">
+      {{ errorMessage() }}
+    </p-message>
+  </div>
+}
+
+<app-data-table [table]="dt" (new)="navigateToNew()">
+  <p-table
+    #dt
+    [value]="menuItems()"
+    [loading]="loading()"
+    [globalFilterFields]="['name', 'categoryName']"
+    [paginator]="tableConfig.paginator"
+    [rows]="tableConfig.rows"
+    [rowsPerPageOptions]="tableConfig.rowsPerPageOptions"
+  >
+    <ng-template #header>
+      <tr>
+        <th>
+          {{ 'image' | translate }}
+        </th>
+
+        <th pSortableColumn="name">
+          {{ 'itemName' | translate }}
+          <p-sort-icon field="name" />
+        </th>
+
+        <th pSortableColumn="categoryName">
+          {{ 'category' | translate }}
+          <p-sort-icon field="categoryName" />
+        </th>
+
+        <th pSortableColumn="price">
+          {{ 'price' | translate }}
+          <p-sort-icon field="price" />
+        </th>
+
+        <th pSortableColumn="isActive">
+          {{ 'status' | translate }}
+          <p-sort-icon field="isActive" />
+        </th>
+
+        <th>
+          {{ 'actions' | translate }}
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-item>
+      <tr>
+        <td>
+          <img
+            [src]="item.imageUrl | menuItemImage"
+            [alt]="item.name"
+            class="h-10 w-10 rounded-md object-cover"
+          />
+        </td>
+
+        <td>
+          {{ item.name }}
+        </td>
+
+        <td>
+          {{ item.categoryName }}
+        </td>
+
+        <td>
+          {{ item.price }}
+        </td>
+
+        <td>
+          <p-tag
+            [value]="item.isActive ? ('active' | translate) : ('inactive' | translate)"
+            [severity]="item.isActive ? 'success' : 'danger'"
+          />
+        </td>
+
+        <td>
+          <button
+            pButton
+            type="button"
+            severity="info"
+            text
+            size="small"
+            (click)="navigateToEdit(item.id)"
+          >
+            <svg data-p-icon="pencil"></svg>
+          </button>
+
+          <button
+            pButton
+            type="button"
+            severity="danger"
+            text
+            size="small"
+            (click)="deleteMenuItem(item.id)"
+          >
+            <svg data-p-icon="trash"></svg>
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="6">
+          <div class="flex flex-col items-center justify-center gap-2 py-6">
+            <svg data-p-icon="inbox" class="w-8 h-8 text-slate-300"></svg>
+
+            <span class="text-sm">
+              {{ 'noRecords' | translate }}
+            </span>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</app-data-table>
