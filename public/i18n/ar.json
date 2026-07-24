@@ -90,5 +90,12 @@
   "feedbackRatingExcellent": "ممتاز",
   "tableQrCode": "رمز QR للطاولة",
   "downloadQrCode": "تحميل رمز QR",
-  "printQrCode": "طباعة رمز QR"
+  "printQrCode": "طباعة رمز QR",
+  "kitchenDisplay": "شاشة المطبخ",
+  "pending": "قيد الانتظار",
+  "inProgress": "قيد التحضير",
+  "served": "تم التقديم",
+  "startPreparing": "ابدأ التحضير",
+  "markServed": "تم التقديم",
+  "noOrders": "لا توجد طلبات"
 }

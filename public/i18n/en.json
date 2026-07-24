@@ -92,5 +92,12 @@
   "feedbackRatingExcellent": "Excellent",
   "tableQrCode": "Table QR Code",
   "downloadQrCode": "Download QR Code",
-  "printQrCode": "Print QR Code"
+  "printQrCode": "Print QR Code",
+  "kitchenDisplay": "Kitchen Display",
+  "pending": "Pending",
+  "inProgress": "In Progress",
+  "served": "Served",
+  "startPreparing": "Start Preparing",
+  "markServed": "Mark Served",
+  "noOrders": "No orders"
 }

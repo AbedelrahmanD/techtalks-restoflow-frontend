@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
+import { kitchenGuard } from './core/guards/kitchen.guard';
 
 export const routes: Routes = [
   {
@@ -14,6 +15,12 @@ export const routes: Routes = [
     path: 'feedback',
     loadComponent: () =>
       import('./features/customer-feedback/customer-feedback').then((m) => m.CustomerFeedback),
+  },
+  {
+    path: 'kitchen-display',
+    loadComponent: () =>
+      import('./features/kitchen-display/kitchen-display').then((m) => m.KitchenDisplay),
+    canActivate: [kitchenGuard],
   },
   {
     path: 'dashboard',
