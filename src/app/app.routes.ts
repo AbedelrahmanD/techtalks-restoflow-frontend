@@ -108,6 +108,32 @@ export const routes: Routes = [
         ],
       },
       {
+        path: 'menu',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./features/menu-items/menu-items-list/menu-items-list').then(
+                (m) => m.MenuItemsList,
+              ),
+          },
+          {
+            path: 'new',
+            loadComponent: () =>
+              import('./features/menu-items/menu-item-form/menu-item-form').then(
+                (m) => m.MenuItemForm,
+              ),
+          },
+          {
+            path: 'edit/:id',
+            loadComponent: () =>
+              import('./features/menu-items/menu-item-form/menu-item-form').then(
+                (m) => m.MenuItemForm,
+              ),
+          },
+        ],
+      },
+      {
         path: 'feedback-questions',
         children: [
           {
