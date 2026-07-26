@@ -15,7 +15,7 @@ export interface MenuItemDto {
     id: number;
     name: string;
     price: number;
-    image: string;
+    image: string | null;
 }
 
 export interface MenuCategoryDto {

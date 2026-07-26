@@ -111,7 +111,7 @@ export class Menu implements OnInit, OnDestroy {
         quantity: currentCart[item.id].quantity + 1
       };
     } else {
-      currentCart[item.id] = { item, quantity: 1 };
+      currentCart[item.id] = { item, quantity: 1, };
     }
     this.cart.set(currentCart);
   }
@@ -194,7 +194,7 @@ export class Menu implements OnInit, OnDestroy {
           id: orderItem.menuItemId,
           name: orderItem.menuItemName,
           price: orderItem.unitPrice,
-          image: '',
+          image: orderItem.image ?? null,
         },
         quantity: orderItem.quantity,
       };

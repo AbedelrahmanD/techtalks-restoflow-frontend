@@ -42,6 +42,7 @@
   "settings": "الإعدادات",
   "restaurantName": "اسم المطعم",
   "currencyId": "العملة",
+  "currencyNotConfigured": "لم يتم إعداد العملة. يرجى إكمال الإعدادات أولاً.",
   "logo": "الشعار",
   "chooseFile": "اختر ملف",
   "selectCurrency": "اختر عملة",
