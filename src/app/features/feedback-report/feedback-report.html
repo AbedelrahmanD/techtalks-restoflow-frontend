@@ -152,92 +152,161 @@
       </section>
 
       <section
-        class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
-      >
-        <div class="border-b border-slate-200 px-6 py-5">
-          <h2 class="text-lg font-bold text-slate-900">
-            {{ 'feedbackRecentSubmissions' | translate }}
-          </h2>
-        </div>
+  class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+>
+  <div class="border-b border-slate-200 px-4 py-5 sm:px-6">
+    <h2 class="text-lg font-bold text-slate-900">
+      {{ 'feedbackRecentSubmissions' | translate }}
+    </h2>
+  </div>
 
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-slate-200">
-            <thead class="bg-slate-50">
-              <tr>
-                <th
-                  class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500"
-                >
-                  {{ 'feedbackCustomerPhone' | translate }}
-                </th>
-
-                <th
-                  class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500"
-                >
-                  {{ 'feedbackCustomerNote' | translate }}
-                </th>
-
-                <th
-                  class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500"
-                >
-                  {{ 'feedbackAverageRating' | translate }}
-                </th>
-
-                <th
-                  class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500"
-                >
-                  {{ 'feedbackCreatedAt' | translate }}
-                </th>
-              </tr>
-            </thead>
-
-            <tbody class="divide-y divide-slate-100 bg-white">
-  @if (feedbackReport.recentFeedback.length === 0) {
-    <tr>
-      <td
-        colspan="4"
-        class="px-6 py-8 text-center text-sm font-semibold text-slate-500"
-      >
+  <!-- Mobile cards -->
+  <div class="divide-y divide-slate-200 md:hidden">
+    @if (feedbackReport.recentFeedback.length === 0) {
+      <div class="px-4 py-8 text-center text-sm font-semibold text-slate-500">
         {{ 'feedbackNoData' | translate }}
-      </td>
-    </tr>
-  } @else {
-    @for (
-      feedback of feedbackReport.recentFeedback;
-      track feedback.sessionId
-    ) {
-      <tr class="hover:bg-slate-50">
-        <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-700">
-          {{
-            feedback.customerPhone ||
-              ('feedbackNoPhone' | translate)
-          }}
-        </td>
+      </div>
+    } @else {
+      @for (
+        feedback of feedbackReport.recentFeedback;
+        track feedback.sessionId
+      ) {
+        <article class="space-y-4 p-4">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wide text-slate-400">
+              {{ 'feedbackCustomerPhone' | translate }}
+            </p>
 
-        <td class="max-w-sm px-6 py-4 text-sm text-slate-700">
-          {{
-            feedback.customerNote ||
-              ('feedbackNoNote' | translate)
-          }}
-        </td>
+            <p class="mt-1 break-words text-sm font-medium text-slate-700">
+              {{
+                feedback.customerPhone ||
+                  ('feedbackNoPhone' | translate)
+              }}
+            </p>
+          </div>
 
-        <td class="whitespace-nowrap px-6 py-4">
-          <span
-            class="rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-amber-700"
-          >
-            {{ feedback.averageRating | number: '1.1-2' }} / 5
-          </span>
-        </td>
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wide text-slate-400">
+              {{ 'feedbackCustomerNote' | translate }}
+            </p>
 
-        <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
-          {{ feedback.createdAt | date: 'medium' }}
-        </td>
-      </tr>
+            <p class="mt-1 break-words text-sm text-slate-700">
+              {{
+                feedback.customerNote ||
+                  ('feedbackNoNote' | translate)
+              }}
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-wide text-slate-400">
+                {{ 'feedbackAverageRating' | translate }}
+              </p>
+
+              <span
+                class="mt-1 inline-flex rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-amber-700"
+              >
+                {{ feedback.averageRating | number: '1.1-2' }} / 5
+              </span>
+            </div>
+
+            <div class="text-right">
+              <p class="text-xs font-bold uppercase tracking-wide text-slate-400">
+                {{ 'feedbackCreatedAt' | translate }}
+              </p>
+
+              <p class="mt-1 text-sm text-slate-500">
+                {{ feedback.createdAt | date: 'medium' }}
+              </p>
+            </div>
+          </div>
+        </article>
+      }
     }
-  }
-</tbody>
-          </table>
-        </div>
-      </section>
+  </div>
+
+  <!-- Desktop table -->
+  <div class="hidden overflow-x-auto md:block">
+    <table class="min-w-full divide-y divide-slate-200">
+      <thead class="bg-slate-50">
+        <tr>
+          <th
+            class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500"
+          >
+            {{ 'feedbackCustomerPhone' | translate }}
+          </th>
+
+          <th
+            class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500"
+          >
+            {{ 'feedbackCustomerNote' | translate }}
+          </th>
+
+          <th
+            class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500"
+          >
+            {{ 'feedbackAverageRating' | translate }}
+          </th>
+
+          <th
+            class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500"
+          >
+            {{ 'feedbackCreatedAt' | translate }}
+          </th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-slate-100 bg-white">
+        @if (feedbackReport.recentFeedback.length === 0) {
+          <tr>
+            <td
+              colspan="4"
+              class="px-6 py-8 text-center text-sm font-semibold text-slate-500"
+            >
+              {{ 'feedbackNoData' | translate }}
+            </td>
+          </tr>
+        } @else {
+          @for (
+            feedback of feedbackReport.recentFeedback;
+            track feedback.sessionId
+          ) {
+            <tr class="hover:bg-slate-50">
+              <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-700">
+                {{
+                  feedback.customerPhone ||
+                    ('feedbackNoPhone' | translate)
+                }}
+              </td>
+
+              <td class="max-w-sm px-6 py-4 text-sm text-slate-700">
+                <p class="break-words">
+                  {{
+                    feedback.customerNote ||
+                      ('feedbackNoNote' | translate)
+                  }}
+                </p>
+              </td>
+
+              <td class="whitespace-nowrap px-6 py-4">
+                <span
+                  class="rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-amber-700"
+                >
+                  {{ feedback.averageRating | number: '1.1-2' }} / 5
+                </span>
+              </td>
+
+              <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
+                {{ feedback.createdAt | date: 'medium' }}
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
     }
   }
 </div>
