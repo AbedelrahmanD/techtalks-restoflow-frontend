@@ -5,6 +5,7 @@ export interface OrderItemDto {
   quantity: number;
   unitPrice: number;
   note: string | null;
+  image: string | null;
 }
 
 export interface OrderDto {

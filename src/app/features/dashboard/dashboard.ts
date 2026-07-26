@@ -31,12 +31,13 @@ export class Dashboard {
     }
   ];
   menuItems = [
+    { label: 'menuSettings', route: '/dashboard/settings', icon: 'pi pi-cog' },
     { label: 'menuUsers', route: '/dashboard/users', icon: 'pi pi-users' },
     { label: 'menuCategories', route: '/dashboard/categories', icon: 'pi pi-tags' },
-    { label: 'menuDiningTables', route: '/dashboard/dining-tables', icon: 'pi pi-table' },
     { label: 'menuItems', route: '/dashboard/menu', icon: 'pi pi-book' },
+    { label: 'menuDiningTables', route: '/dashboard/dining-tables', icon: 'pi pi-table' },
     { label: 'menuQuestions', route: '/dashboard/feedback-questions', icon: 'pi pi-question-circle' },
-    { label: 'menuSettings', route: '/dashboard/settings', icon: 'pi pi-cog' }
+
   ];
 
   logout() {

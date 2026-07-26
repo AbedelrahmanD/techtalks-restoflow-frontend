@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -16,6 +16,7 @@ import { Observable } from 'rxjs';
 import { Spinner } from '../../../shared/ui/spinner/spinner';
 import { MenuItemsService } from '../../../core/services/menu-items.service';
 import { CategoriesService } from '../../../core/services/categories.service';
+import { SettingsService } from '../../../core/services/settings.service';
 import {
   MenuItemCreateDto,
   MenuItemDto,
@@ -48,15 +49,16 @@ export class MenuItemForm implements OnInit {
   private fb = inject(FormBuilder);
   private menuItemsService = inject(MenuItemsService);
   private categoriesService = inject(CategoriesService);
+  private settingsService = inject(SettingsService);
 
   router = inject(Router);
   private route = inject(ActivatedRoute);
 
   form = this.fb.nonNullable.group({
-    categoryId: [0, [Validators.required, Validators.min(1)]],
-    name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(200)]],
-    description: ['', [Validators.maxLength(1000)]],
-    price: [0, [Validators.required, Validators.min(0.01)]],
+    categoryId: [0],
+    name: [''],
+    description: [''],
+    price: [0],
     isActive: [true],
   });
 
@@ -69,10 +71,17 @@ export class MenuItemForm implements OnInit {
   selectedImage = signal<File | undefined>(undefined);
   imageUrl = signal<string | null>(null);
   categories = signal<CategoryDto[]>([]);
+  currencyCode = signal<string | null>(null);
 
   ngOnInit(): void {
     this.categoriesService.listCategories().subscribe({
       next: (categories) => this.categories.set(categories),
+    });
+
+    this.settingsService.getSettings().subscribe({
+      next: (settings) => {
+        this.currencyCode.set(settings.currency?.code ?? null);
+      },
     });
 
     const id = this.route.snapshot.paramMap.get('id');
@@ -111,11 +120,6 @@ export class MenuItemForm implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
     this.saving.set(true);
     this.errorMessage.set(null);
     this.errorFields.set({});

@@ -43,6 +43,7 @@
   "settings": "Settings",
   "restaurantName": "Restaurant name",
   "currencyId": "Currency",
+  "currencyNotConfigured": "Currency is not configured. Please complete the settings first.",
   "logo": "Logo",
   "chooseFile": "Choose file",
   "selectCurrency": "Select a currency",
