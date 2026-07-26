@@ -159,6 +159,13 @@ export const routes: Routes = [
           },
         ],
       },
+ {
+  path: 'feedback-report',
+  loadComponent: () =>
+    import('./features/feedback-report/feedback-report').then(
+      (m) => m.FeedbackReportComponent,
+    ),
+},
       {
         path: 'settings',
         loadComponent: () =>

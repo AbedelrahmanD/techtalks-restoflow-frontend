@@ -1,0 +1,243 @@
+<div class="space-y-6">
+  <div>
+    <h1 class="text-2xl font-bold text-slate-900">
+      {{ 'feedbackReportTitle' | translate }}
+    </h1>
+
+    <p class="mt-1 text-sm text-slate-500">
+      {{ 'feedbackReportSubtitle' | translate }}
+    </p>
+  </div>
+
+  @if (loading()) {
+    <div
+      class="flex min-h-72 flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white"
+    >
+      <i class="pi pi-spin pi-spinner text-3xl text-slate-500"></i>
+
+      <p class="mt-4 text-sm font-semibold text-slate-500">
+        {{ 'feedbackReportLoading' | translate }}
+      </p>
+    </div>
+  } @else if (errorMessage()) {
+    <div class="rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
+      <i class="pi pi-exclamation-triangle text-2xl text-red-600"></i>
+
+      <p class="mt-3 text-sm font-semibold text-red-700">
+        {{ errorMessage() | translate }}
+      </p>
+
+      <button
+        type="button"
+        (click)="loadReport()"
+        class="mt-4 rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-700"
+      >
+        {{ 'feedbackTryAgain' | translate }}
+      </button>
+    </div>
+  } @else if (report(); as feedbackReport) {
+    @if (feedbackReport.totalSessions === 0) {
+      <div class="rounded-2xl border border-slate-200 bg-white p-10 text-center">
+        <i class="pi pi-chart-bar text-3xl text-slate-300"></i>
+
+        <p class="mt-4 text-sm font-semibold text-slate-500">
+          {{ 'feedbackNoData' | translate }}
+        </p>
+      </div>
+    } @else {
+      <div class="grid gap-5 md:grid-cols-2">
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-semibold text-slate-500">
+                {{ 'feedbackTotalSessions' | translate }}
+              </p>
+
+              <p class="mt-3 text-3xl font-bold text-slate-900">
+                {{ feedbackReport.totalSessions }}
+              </p>
+            </div>
+
+            <div
+              class="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-blue-700"
+            >
+              <i class="pi pi-comments text-xl"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-semibold text-slate-500">
+                {{ 'feedbackOverallAverage' | translate }}
+              </p>
+
+              <div class="mt-3 flex items-center gap-2">
+                <p class="text-3xl font-bold text-slate-900">
+                  {{ feedbackReport.overallAverageRating | number: '1.1-2' }}
+                </p>
+
+                <span class="text-sm font-semibold text-slate-400">/ 5</span>
+              </div>
+            </div>
+
+            <div
+              class="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100 text-amber-600"
+            >
+              <i class="pi pi-star-fill text-xl"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <h2 class="text-lg font-bold text-slate-900">
+          {{ 'feedbackQuestionResults' | translate }}
+        </h2>
+
+        <div class="mt-6 grid gap-5 xl:grid-cols-2">
+          @for (question of feedbackReport.questions; track question.questionId) {
+            <article class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <h3 class="font-semibold leading-6 text-slate-900">
+                {{ question.question }}
+              </h3>
+
+              <div class="mt-4 flex items-center justify-between gap-4">
+                <div>
+                  <p class="text-xs font-semibold uppercase text-slate-400">
+                    {{ 'feedbackAverageRating' | translate }}
+                  </p>
+
+                  <p class="mt-1 text-2xl font-bold text-slate-900">
+                    {{ question.averageRating | number: '1.1-2' }}
+                    <span class="text-sm text-slate-400">/ 5</span>
+                  </p>
+                </div>
+
+                <div class="text-right">
+                  <p class="text-xs font-semibold uppercase text-slate-400">
+                    {{ 'feedbackResponseCount' | translate }}
+                  </p>
+
+                  <p class="mt-1 text-xl font-bold text-slate-900">
+                    {{ question.responseCount }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="mt-5 space-y-3">
+                @for (rating of ratingValues; track rating) {
+                  <div class="grid grid-cols-[24px_1fr_32px] items-center gap-3">
+                    <span class="text-sm font-semibold text-slate-600">
+                      {{ rating }}
+                    </span>
+
+                    <div class="h-2 overflow-hidden rounded-full bg-slate-200">
+                      <div
+                        class="h-full rounded-full bg-slate-900 transition-all"
+                        [style.width.%]="getRatingPercentage(question, rating)"
+                      ></div>
+                    </div>
+
+                    <span class="text-right text-xs font-semibold text-slate-500">
+                      {{ getRatingCount(question, rating) }}
+                    </span>
+                  </div>
+                }
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+
+      <section
+        class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+      >
+        <div class="border-b border-slate-200 px-6 py-5">
+          <h2 class="text-lg font-bold text-slate-900">
+            {{ 'feedbackRecentSubmissions' | translate }}
+          </h2>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-slate-200">
+            <thead class="bg-slate-50">
+              <tr>
+                <th
+                  class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500"
+                >
+                  {{ 'feedbackCustomerPhone' | translate }}
+                </th>
+
+                <th
+                  class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500"
+                >
+                  {{ 'feedbackCustomerNote' | translate }}
+                </th>
+
+                <th
+                  class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500"
+                >
+                  {{ 'feedbackAverageRating' | translate }}
+                </th>
+
+                <th
+                  class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500"
+                >
+                  {{ 'feedbackCreatedAt' | translate }}
+                </th>
+              </tr>
+            </thead>
+
+            <tbody class="divide-y divide-slate-100 bg-white">
+  @if (feedbackReport.recentFeedback.length === 0) {
+    <tr>
+      <td
+        colspan="4"
+        class="px-6 py-8 text-center text-sm font-semibold text-slate-500"
+      >
+        {{ 'feedbackNoData' | translate }}
+      </td>
+    </tr>
+  } @else {
+    @for (
+      feedback of feedbackReport.recentFeedback;
+      track feedback.sessionId
+    ) {
+      <tr class="hover:bg-slate-50">
+        <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-700">
+          {{
+            feedback.customerPhone ||
+              ('feedbackNoPhone' | translate)
+          }}
+        </td>
+
+        <td class="max-w-sm px-6 py-4 text-sm text-slate-700">
+          {{
+            feedback.customerNote ||
+              ('feedbackNoNote' | translate)
+          }}
+        </td>
+
+        <td class="whitespace-nowrap px-6 py-4">
+          <span
+            class="rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-amber-700"
+          >
+            {{ feedback.averageRating | number: '1.1-2' }} / 5
+          </span>
+        </td>
+
+        <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
+          {{ feedback.createdAt | date: 'medium' }}
+        </td>
+      </tr>
+    }
+  }
+</tbody>
+          </table>
+        </div>
+      </section>
+    }
+  }
+</div>

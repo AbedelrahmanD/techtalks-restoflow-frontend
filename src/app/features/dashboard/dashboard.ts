@@ -37,6 +37,11 @@ export class Dashboard {
     { label: 'menuItems', route: '/dashboard/menu', icon: 'pi pi-book' },
     { label: 'menuDiningTables', route: '/dashboard/dining-tables', icon: 'pi pi-table' },
     { label: 'menuQuestions', route: '/dashboard/feedback-questions', icon: 'pi pi-question-circle' },
+    {
+  label: 'menuFeedbackReport',
+  route: '/dashboard/feedback-report',
+  icon: 'pi pi-chart-bar',
+},
 
   ];
 
