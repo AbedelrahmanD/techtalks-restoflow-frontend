@@ -4,10 +4,34 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ## Development server
 
-To start a local development server, run:
+To start a local development server with API proxy enabled:
+
+1. Add a `proxy.conf.json` file at the project root.
+2. Use the following example content:
+
+```json
+{
+    "/api": {
+        "target": "https://localhost:7036",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/api": ""
+        }
+    },
+    "/hubs": {
+        "target": "https://localhost:7036",
+        "secure": false,
+        "changeOrigin": true,
+        "ws": true
+    }
+}
+```
+
+3. Run the development server with proxy config:
 
 ```bash
-ng serve
+ng serve --proxy-config proxy.conf.json
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
